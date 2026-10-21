@@ -14,6 +14,7 @@ import ReceiptPreview from './components/ReceiptPreview.jsx'
 
 function App() {
   const [invoice, setInvoice] = useState(createInitialInvoice)
+  const [paperSize, setPaperSize] = useState('58mm')
   const [touched, setTouched] = useState({})
   const validation = useMemo(() => validateInvoice(invoice), [invoice])
   const calculation = useMemo(() => {
@@ -24,7 +25,7 @@ function App() {
       return { totals: null, error: 'Total transaksi tidak aman. Kurangi QTY atau harga satuan.' }
     }
   }, [validation])
-  const preview = usePdfPreview(invoice, Boolean(calculation.totals))
+  const preview = usePdfPreview(invoice, Boolean(calculation.totals), paperSize)
   const filename = receiptFilename(invoice)
   const [downloading, setDownloading] = useState(false)
   const [downloadError, setDownloadError] = useState('')
@@ -40,6 +41,14 @@ function App() {
     setInvoice((current) => ({
       ...current,
       items: current.items.map((item) => item.id === id ? { ...item, [key]: value } : item),
+    }))
+  }
+  const selectProduct = (itemId, product) => {
+    setInvoice((current) => ({
+      ...current,
+      items: current.items.map((item) => item.id === itemId
+        ? { ...item, name: product.name, unitPrice: product.unitPrice }
+        : item),
     }))
   }
   const addItem = () => {
@@ -105,12 +114,13 @@ function App() {
           <StoreForm {...fieldProps} store={invoice.store} onChange={(key, value) => updateSection('store', key, value)} />
           <TransactionForm {...fieldProps} transaction={invoice.transaction} onChange={(key, value) => updateSection('transaction', key, value)} />
           <ItemListForm {...fieldProps} items={invoice.items} onChange={updateItem} onAdd={addItem}
+            onSelectProduct={selectProduct}
             onRemove={removeItem} totals={calculation.totals} />
           <PaymentForm {...fieldProps} transaction={invoice.transaction} onChange={(key, value) => updateSection('transaction', key, value)} />
         </form>
         <aside>
-          <ReceiptPreview preview={preview} filename={filename}
-            onDownload={downloadPdf} downloading={downloading} />
+          <ReceiptPreview preview={preview} filename={filename} paperSize={paperSize}
+            onPaperSizeChange={setPaperSize} onDownload={downloadPdf} downloading={downloading} />
           {downloadError && <p role="alert" className="field-error">{downloadError}</p>}
           <Summary {...calculation} transaction={invoice.transaction} />
         </aside>
