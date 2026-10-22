@@ -51,7 +51,7 @@ it('debounces valid edits and ignores an older PDF that finishes after the lates
   const freshUrl = result.current.url
   await act(async () => { oldRender.resolve(new Blob(['stale'], { type: 'application/pdf' })) })
   expect(result.current.url).toBe(freshUrl)
-  expect(result.current.key).toBe(latest)
+  expect(result.current.key).toEqual({ invoice: latest, paperSize: '80mm' })
   expect(createUrl).toHaveBeenCalledTimes(1)
 })
 

@@ -77,7 +77,7 @@ p {
 
 .workspace {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 320px;
+  grid-template-columns: minmax(0, 1fr) 360px;
   align-items: start;
   gap: 2rem;
 }
@@ -335,14 +335,49 @@ dd {
   color: var(--error);
 }
 
-.receipt-frame {
-  display: block;
-  width: 100%;
-  height: min(70vh, 620px);
+.receipt-preview-stage {
+  display: flex;
+  justify-content: center;
   min-height: 360px;
+  max-height: calc(70vh + 1.5rem);
+  padding: 0.75rem;
+  overflow: auto;
+  background: #f1f3f2;
   border: 1px solid var(--border);
   border-radius: 4px;
-  background: #f1f3f2;
+}
+
+.receipt-preview-paper {
+  flex: 0 0 auto;
+  width: var(--receipt-paper-width, 58mm);
+  max-width: 100%;
+  background: #fff;
+  box-shadow: 0 1px 5px rgb(20 35 29 / 18%);
+}
+
+.receipt-preview-canvas {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+.receipt-print-frame {
+  position: fixed;
+  top: 0;
+  left: -10000px;
+  width: var(--receipt-paper-width, 58mm);
+  height: min(70vh, 620px);
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.receipt-preview-error {
+  align-self: center;
+  max-width: 28ch;
+  color: var(--error);
+  text-align: center;
 }
 
 .preview-placeholder {

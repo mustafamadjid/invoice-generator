@@ -18,6 +18,13 @@ test('generates and renders real receipt PDFs with local fonts', async ({ page }
   expect(sample.text).toContain('Rp 396.000')
   await writeFile(testInfo.outputPath('sample.pdf'), Buffer.from(sample.bytes))
   await page.locator('canvas').screenshot({ path: testInfo.outputPath('sample.png') })
+  const receipt58mm = await page.evaluate(() => window.renderReceipt(2, '58mm'))
+  await writeFile(testInfo.outputPath('sample-58mm.pdf'), Buffer.from(receipt58mm.bytes))
+  await page.locator('canvas').screenshot({ path: testInfo.outputPath('sample-58mm.png') })
+  expect(receipt58mm.pages).toBe(1)
+  expect(receipt58mm.width).toBeCloseTo(58 * 72 / 25.4, 2)
+  expect(receipt58mm.height).toBeCloseTo(168 * 72 / 25.4, 2)
+  expect(receipt58mm.text).toContain('Terima kasih telah membeli')
   for (const count of [1, 2, 10, 50]) {
     const receipt = await page.evaluate((value) => window.renderReceipt(value), count)
     expect(receipt.pages).toBe(1)

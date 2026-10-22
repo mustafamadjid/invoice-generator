@@ -4,8 +4,8 @@ import { getDocument, OPS } from 'pdfjs-dist/legacy/build/pdf.mjs'
 import { createSampleInvoice } from '../data/sampleInvoice.js'
 import { createReceiptBlob } from './receiptPdf.js'
 
-async function inspect(invoice) {
-  const blob = await createReceiptBlob(invoice)
+async function inspect(invoice, paperSize = '80mm') {
+  const blob = await createReceiptBlob(invoice, paperSize)
   const bytes = new Uint8Array(await blob.arrayBuffer())
   const loadingTask = getDocument({ data: bytes, useSystemFonts: false })
   const document = await loadingTask.promise
@@ -26,6 +26,18 @@ async function inspect(invoice) {
 }
 
 describe('real receipt PDF output', () => {
+  it('uses 58mm and 80mm widths and matches the 58mm reference length', async () => {
+    const invoice = createSampleInvoice()
+    const receipt80mm = await inspect(invoice, '80mm')
+    const receipt58mm = await inspect(invoice, '58mm')
+
+    expect(receipt80mm.width).toBeCloseTo(80 * 72 / 25.4, 2)
+    expect(receipt58mm.width).toBeCloseTo(58 * 72 / 25.4, 2)
+    expect(receipt58mm.height).toBeCloseTo(168 * 72 / 25.4, 2)
+    expect(receipt58mm.items.map((item) => item.str)).toContain('1. Ricebowl Spesial +')
+    expect(receipt58mm.items.some((item) => item.str === 'Kulit')).toBe(true)
+  })
+
   it('embeds the reference content on one 80mm page with bold totals and dashed rules', async () => {
     const result = await inspect(createSampleInvoice())
     expect(result.blob.type).toBe('application/pdf')
