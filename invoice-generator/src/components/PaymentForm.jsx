@@ -21,6 +21,11 @@ export default function PaymentForm({ transaction, onChange, onBlur, errorFor })
             error={errorFor('transaction.customPaymentMethod')} />
         )}
       </div>
+      <Field path="transaction.notes" label="Catatan order"
+        value={transaction.notes} multiline required={false} maxLength={160}
+        hint="Opsional. Maksimal 160 karakter dan 4 baris."
+        onChange={(value) => onChange('notes', value)} onBlur={onBlur}
+        error={errorFor('transaction.notes')} />
     </section>
   )
 }

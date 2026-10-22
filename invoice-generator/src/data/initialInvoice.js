@@ -17,7 +17,7 @@ export function createInitialInvoice() {
     },
     transaction: {
       date: '', time: '', customer: '', cashier: '',
-      paymentMethod: 'QRIS', customPaymentMethod: '', paymentStatus: 'Lunas',
+      paymentMethod: 'QRIS', customPaymentMethod: '', paymentStatus: 'Lunas', notes: '',
     },
     items: [createItem()],
   }

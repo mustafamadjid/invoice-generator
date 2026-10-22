@@ -136,6 +136,15 @@ export function buildReceiptDefinition(invoice, totals, paperSize = '80mm') {
       { text: `Metode pembayaran: ${paymentMethod}` },
       { text: `Status: ${transaction.paymentStatus}`, margin: [0, 3, 0, 0] },
       separator(contentWidth, is58mm),
+      ...(transaction.notes ? [
+        {
+          text: [
+            { text: 'Catatan: ', bold: true },
+            { text: transaction.notes },
+          ],
+        },
+        separator(contentWidth, is58mm),
+      ] : []),
       { text: store.footer, alignment: 'center' },
     ],
   }

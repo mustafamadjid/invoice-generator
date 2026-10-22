@@ -6,9 +6,9 @@ export const PAYMENT_STATUSES = ['Lunas', 'Belum Lunas']
 
 export function validateInvoice(invoice) {
   const errors = {}
-  function text(value, path, label, max, lines) {
+  function text(value, path, label, max, lines, optional = false) {
     const normalized = typeof value === 'string' ? value.replace(/\r\n?/g, '\n').trim() : ''
-    if (!normalized) errors[path] = `${label} wajib diisi`
+    if (!normalized && !optional) errors[path] = `${label} wajib diisi`
     else if (normalized.length > max) errors[path] = `${label} maksimal ${max} karakter`
     else if (lines && normalized.split('\n').length > lines) {
       errors[path] = `${label} maksimal ${lines} baris`
@@ -44,6 +44,7 @@ export function validateInvoice(invoice) {
     time: transaction.time,
     customer: text(transaction.customer, 'transaction.customer', 'Pelanggan', 80),
     cashier: text(transaction.cashier, 'transaction.cashier', 'Kasir', 80),
+    notes: text(transaction.notes, 'transaction.notes', 'Catatan order', 160, 4, true),
     paymentMethod: transaction.paymentMethod,
     paymentStatus: transaction.paymentStatus,
     customPaymentMethod: '',

@@ -110,7 +110,7 @@ function App() {
       <p className="session-note">Data hanya tersedia selama halaman ini terbuka. Refresh akan menghapus isian.</p>
       <div className="workspace">
         <form noValidate autoComplete="off" onSubmit={(event) => event.preventDefault()}>
-          <p className="form-intro">Semua field wajib diisi. Harga 0 diperbolehkan untuk produk gratis.</p>
+          <p className="form-intro">Semua field wajib diisi kecuali catatan order. Harga 0 diperbolehkan untuk produk gratis.</p>
           <StoreForm {...fieldProps} store={invoice.store} onChange={(key, value) => updateSection('store', key, value)} />
           <TransactionForm {...fieldProps} transaction={invoice.transaction} onChange={(key, value) => updateSection('transaction', key, value)} />
           <ItemListForm {...fieldProps} items={invoice.items} onChange={updateItem} onAdd={addItem}
