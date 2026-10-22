@@ -5,6 +5,7 @@ Aplikasi web satu halaman untuk membuat struk transaksi, melihat preview PDF, me
 ## Fitur
 
 - Mengisi informasi toko, transaksi, pembayaran, dan beberapa produk.
+- Menambahkan catatan order opsional yang dicetak setelah informasi pembayaran.
 - Menghitung jumlah item dan total transaksi secara otomatis, dengan validasi input.
 - Menyediakan menu bawaan dengan harga yang bisa dipilih, sekaligus mempertahankan input nama dan harga manual:
   - Paket Kotak — Rp19.000
