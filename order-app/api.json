@@ -1,0 +1,18 @@
+{
+  "Description": "Order Request Body",
+
+  "customer_name": "Mustafa",
+  "payment_method": "cash",
+  "delivery_fee": 5000,
+  "notes": "Sambal dipisah, tidak pakai timun",
+  "items": [
+    {
+      "product_id": "550e8400-e29b-41d4-a716-446655440001",
+      "quantity": 2
+    },
+    {
+      "product_id": "550e8400-e29b-41d4-a716-446655440002",
+      "quantity": 1
+    }
+  ]
+}

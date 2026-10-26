@@ -1,0 +1,11 @@
+# Environment files
+.env
+.env.*
+!.env.example
+env.ps1
+# Go build outputs
+/bin/
+/build/
+*.exe
+*.test
+*.out
